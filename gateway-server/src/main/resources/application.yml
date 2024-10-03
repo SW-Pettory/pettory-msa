@@ -10,14 +10,16 @@ spring:
         - id: user-server
           uri: lb://USER-SERVER
           predicates:
-            - Path=/users/**
-            - Path=/login
-            - Path=/invitations
-            - Path=/families
-            - Path=/
-            - Path=/pets
-            - Path=/walking-records
-            - Path=/feeding-records
+            - Path=/user-server/**
+          filters:
+            - RewritePath=/user-server/(?<segment>.*),/$\{segment}
+        - id: main-server
+          uri: lb://MAIN-SERVER
+          predicates:
+            - Path=/main-server/**
+          filters:
+            - RewritePath=/main-server/(?<segment>.*),/$\{segment}
+
 
 eureka:
   instance:
